@@ -1,0 +1,19 @@
+{
+  "name": "org",
+  "version": "1.0.0",
+  "description": "Dockerize NodeJS App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Molika",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5",
+    "pg": "^7.12.1",
+    "sequelize": "^5.15.0",
+    "sequelize-cli": "^5.5.0"
+  }
+}

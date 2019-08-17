@@ -1,0 +1,28 @@
+version: "3.0"
+
+services:
+
+  org_api_server:
+    build: .
+    links:
+      - mysql
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devdb1
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+    ports:
+      - 3306:3306
+
+  migration:
+    image: org_api_server:latest
+    command: ["./wait-for-it/wait-for-it.sh", "mysql:3306", "--", "npm", "run", "migrate"]
+    links:
+      - mysql
+    depends_on:
+      - mysql
