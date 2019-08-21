@@ -1,7 +1,7 @@
 var app = require('express')();
 var url = require('url');
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('mysql://dev:dev@127.0.0.1:3306/devdb2',{
+var sequelize = new Sequelize('mysql://devusr:devpw@db:3306/containerdb',{
 	define: { timestamps: false }
 });
 var bodyParser = require('body-parser'); 
@@ -70,17 +70,20 @@ function findRelatives(name){
 		}).then(function(org) {
 			org.getParents().then(parents => {
 				for(var i=0; i<parents.length; i++) {
-					list.push({"relationship_type":"parent","org_name":parents[i].dataValues.org_name});
+					var pname = parents[i].dataValues.org_name;
+					list.push({"relationship_type":"parent","org_name":pname});
 					parents[i].getDaughters().then(sisters => {
 						for(var i=0; i<sisters.length; i++) {
-							if(!search(list,sisters[i].dataValues.org_name))					
-								list.push({"relationship_type":"sister","org_name":sisters[i].dataValues.org_name});
+							var sname = sisters[i].dataValues.org_name;
+							if(!search(list,sname))					
+								list.push({"relationship_type":"sister","org_name":sname});
 						}
 					});
 				}
 				org.getDaughters().then(daughters => {
 					for(var i=0; i<daughters.length; i++) {
-						list.push({"relationship_type":"daughter","org_name":daughters[i].dataValues.org_name});
+						var dname = daughters[i].dataValues.org_name;
+						list.push({"relationship_type":"daughter","org_name":dname});
 					}
 					list.sort((a,b) => (a.org_name > b.org_name) ? 1 : -1); 
 					resolve(list);
@@ -94,13 +97,17 @@ app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
 	var org_name = url.parse(req.url,true).query.name;
+	var page_nr = url.parse(req.url,true).query.page_nr;
+	console.log(page_nr);
 	findRelatives(org_name).then(data => {
-		res.send(data);
+		var startAt = (page_nr-1)*100;
+		var endAt = page_nr*100;
+		res.send(JSON.stringify(data.slice(startAt,endAt), null, 4));
 	});
 });
 app.post('/', (req, res) => {
-	var json = req.body;
-	insertOrg(json).then(data => {
+	var json = req.body
+;	insertOrg(json).then(data => {
 		res.send('relations created successfully.');
 	});
 });
