@@ -4,18 +4,16 @@ services:
 
   org_api_server:
     build: .
-    links:
-      - db
     ports: 
       - 8080:8080
     depends_on:
       - db
     expose:
       - '8080'
-    command: ["./wait-for-it.sh", "-t", "0", "db:3306", "--", "npm", "run", "migrate", "--", "npm", "run", "start"]
+    command: ["./wait-for-it.sh", "-t", "0", "db:3306", "--", "npm", "run", "start"]
 
   db:
-    image: mysql:5.7
+    build: ./database
     command: --max_allowed_packet=32505856 
     restart: always
     environment:

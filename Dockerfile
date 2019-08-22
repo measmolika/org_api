@@ -9,4 +9,7 @@ RUN npm install
 RUN git clone https://github.com/vishnubob/wait-for-it.git
 # Bundle app source
 COPY . .
-RUN chmod +x wait-for-it.sh
+RUN cd wait-for-it 
+RUN chmod +x wait-for-it/wait-for-it.sh && \
+	mv wait-for-it/wait-for-it.sh . && \
+	rm -rf wait-for-it

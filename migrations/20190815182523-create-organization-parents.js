@@ -9,10 +9,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       org_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'organizations', key: 'id' }
       },
       parent_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'organizations', key: 'id' }
       },
       createdAt: {
         allowNull: false,

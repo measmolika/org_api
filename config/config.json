@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "devusr",
-    "password": "devpw",
-    "database": "containerdb",
+    "username": "dev",
+    "password": "dev",
+    "database": "devdb",
     "host": "db",
     "dialect": "mysql",
     "operatorsAliases": false
