@@ -9,5 +9,4 @@ RUN npm install
 RUN git clone https://github.com/vishnubob/wait-for-it.git
 # Bundle app source
 COPY . .
-EXPOSE 8080
-CMD ["node","server.js"]
+RUN chmod +x wait-for-it.sh

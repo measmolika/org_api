@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "dev",
-    "password": "dev",
-    "database": "devdb1",
-    "host": "127.0.0.1",
+    "username": "devusr",
+    "password": "devpw",
+    "database": "containerdb",
+    "host": "db",
     "dialect": "mysql",
     "operatorsAliases": false
   },
