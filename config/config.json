@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "dev",
-    "password": "dev",
+    "username": "devusr",
+    "password": "devpw",
     "database": "devdb",
     "host": "db",
     "dialect": "mysql",

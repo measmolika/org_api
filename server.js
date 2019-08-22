@@ -1,7 +1,7 @@
 var app = require('express')();
 var url = require('url');
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('mysql://dev:dev@127.0.0.1:3306/devdb',{
+var sequelize = new Sequelize('mysql://devusr:devpw@db:3306/containerdb',{
 	define: { timestamps: false }
 });
 var bodyParser = require('body-parser'); 
@@ -56,7 +56,7 @@ function parseJson(json) {
 }
 
 
-function insertOrg(json, parent_id = null) {
+function insertOrg(json) {
 	var organizations = parseJson(json);
 
 	var org_ids = {};
@@ -79,24 +79,7 @@ function insertOrg(json, parent_id = null) {
 			}
 		}
 	});
-
 	return Promise.all(promises);
-
-
-	/*return Organization.findOrCreate({ where: {org_name: json.org_name} })
-		.then(([org]) => {
-			console.log(org);
-			OrganizationParent.create({
-				org_id: org.id, parent_id: parent_id
-			}).then(orgParent => {
-				console.log("Parent Auto-generated ID: ", orgParent.id);
-			});
-			if (json.daughters) {
-				for (var i=0; i<json.daughters.length; i++) {
-					insertOrg(json.daughters[i], org.id);
-				}
-			}
-		});*/
 }
 
 function search(array, name) {
@@ -145,6 +128,8 @@ function findRelatives(name){
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
+	//read organization name and page number from url
+	//example url 'http://localhost:8080/?name=Banana%20Tree&page_nr=1'
 	var org_name = url.parse(req.url,true).query.name;
 	var page_nr = url.parse(req.url,true).query.page_nr;
 	findRelatives(org_name).then(data => {
@@ -160,4 +145,4 @@ app.post('/', (req, res) => {
 	});
 });
 app.listen(8080);
-console.log(`Running on port 8080\n`);
+console.log(`Running on port 8080`);
