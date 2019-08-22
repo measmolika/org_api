@@ -1,7 +1,7 @@
-#Organization Relationships API <br>
-##Requirements<br>
+# Organization Relationships API <br>
+## Requirements<br>
 Install docker and docker-compose<br>
-##Usage<br>
+## Usage<br>
 Clone project and run<br>
 $ docker-compose up --build<br>
 To list all running containers<br>
